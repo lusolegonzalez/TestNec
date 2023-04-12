@@ -1,0 +1,18 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Quotes</mat-card-title>
+    </mat-card-header>     
+    <mat-card-content>
+        <div *ngIf="loading">
+            <mat-spinner color="accent"></mat-spinner>
+        </div>
+        <div *ngIf="apiError">
+            <span class="api-error-message">An error has occurred while communicating with the server.</span>
+        </div>
+        <mat-list *ngIf="isVisible">
+            <mat-list-item *ngFor="let quote of quotes">
+                <span matListItemTitle style="font-weight: bold;">{{quote.name}}</span> : u$s <span>{{quote.price}}</span>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>

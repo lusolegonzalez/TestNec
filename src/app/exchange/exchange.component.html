@@ -1,0 +1,54 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Exchanges</mat-card-title>
+    </mat-card-header>  
+
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="example-form">
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Currency</mat-label>
+                    <mat-select formControlName="Currency">
+                        <mat-option *ngFor="let currency of currencies" [value]="currency.value">
+                            {{currency.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="submitted && f['Currency'].errors && f['Currency'].errors['required']">Currency is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Amount: </mat-label>
+                    <input matInput formControlName="Amount" type="number">
+                    <mat-error *ngIf="submitted && f['Amount'].errors && f['Amount'].errors['required']">Amount is required</mat-error>
+                    <mat-error *ngIf="submitted && f['Amount'].errors && f['Amount'].errors['min']">Amount must be greater than 0</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="button-container">
+                <button mat-raised-button color="accent" class="button" type="submit">Exchange</button>
+            </div>
+        </form>
+    </mat-card-content>
+
+</mat-card>
+<div style="display:flex; flex-direction: row;">
+
+<div *ngIf="loading">
+    <mat-spinner color="accent"></mat-spinner>
+</div>
+<div *ngIf="apiError">
+    <span class="api-error-message">An error has occurred while communicating with the server</span>
+</div>
+<div *ngIf="isVisible">
+    <mat-card>
+        <mat-card-content>
+    <h3>Prices</h3>
+    <mat-list>
+        <mat-list-item *ngFor="let exchange of exchanges">
+            <span matListItemTitle style="font-weight: bold;">{{exchange.name}}</span> : <span>{{exchange.price}}</span>
+        </mat-list-item>
+    </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>
+</div>
